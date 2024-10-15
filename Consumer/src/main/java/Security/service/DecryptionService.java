@@ -19,7 +19,7 @@ public class DecryptionService {
         String encryptedData = new String(file.getBytes(), StandardCharsets.UTF_8);
 
         // Load the private key from the resources folder (fixed path to private.pem)
-        ClassPathResource resource = new ClassPathResource("private.pem");
+        ClassPathResource resource = new ClassPathResource("private_key.pem");
         PrivateKey privateKey = PemUtils.getPrivateKey(resource);
 
         // Decrypt the data
