@@ -19,24 +19,15 @@ public class ProducerController {
     private EncryptionService encryptionService;
 
     @PostMapping("/encrypt")
-    public ResponseEntity<byte[]> encryptFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> encryptFile(@RequestParam("file") MultipartFile file) {
         try {
             // Encrypt the file content
             String encryptedData = encryptionService.encryptFile(file);
 
-            // Convert encrypted data to bytes
-            byte[] encryptedBytes = encryptedData.getBytes();
-
-            // Prepare headers for the response
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getOriginalFilename() + ".txt");
-            headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(encryptedBytes);
+            // Return the encrypted data as a plain string
+            return ResponseEntity.ok(encryptedData);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Encryption failed: " + e.getMessage());
         }
     }
 }

@@ -22,7 +22,11 @@ public class DecryptionService {
         ClassPathResource resource = new ClassPathResource("private_key.pem");
         PrivateKey privateKey = PemUtils.getPrivateKey(resource);
 
-        // Decrypt the data
-        return EncryptionUtils.decrypt(encryptedData, privateKey);
+        try{
+            // Decrypt the data
+            return EncryptionUtils.decrypt(encryptedData, privateKey);
+        }catch(Exception e){
+            return "failed to decrypt the data.";
+        }
     }
 }
